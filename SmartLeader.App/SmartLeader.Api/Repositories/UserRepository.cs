@@ -13,7 +13,7 @@ namespace SmartLeader.Api.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<User>> GetUsersAsync()
+        public async Task<IEnumerable<User>> GetAllAsync()
         {
             return await _context.Users.Include(u => u.CreditScore).ToListAsync();  
         }
@@ -27,6 +27,12 @@ namespace SmartLeader.Api.Repositories
         public async Task AddAsync(User entity)
         {
             await _context.Users.AddAsync(entity);
+            await _context.SaveChangesAsync();
+        }
+        
+        public async Task UpdateAsync(User entity)
+        {
+            _context.Users.Update(entity);
             await _context.SaveChangesAsync();
         }
 
